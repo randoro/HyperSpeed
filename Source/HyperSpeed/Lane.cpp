@@ -16,11 +16,16 @@ ALane::ALane()
 	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
 
 	// Create the left mesh component
-	LaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLaneMesh"));
-	LaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
-	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
+	LeftLaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLaneMesh"));
+	LeftLaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
+	LeftLaneMeshComponent->SetStaticMesh(ShipMesh.Object);
+	LeftLaneMeshComponent->AddLocalOffset(FVector(10.0f, 10.0f, 10.0f));
 
-	LaneMeshComponent->AddLocalOffset(FVector(10.0f, 10.0f, 10.0f));
+	//// Create the right mesh component
+	//LaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLaneMesh"));
+	//LaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
+	//LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
+	//LaneMeshComponent->AddLocalOffset(FVector(10.0f, 10.0f, 10.0f));
 
 
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
