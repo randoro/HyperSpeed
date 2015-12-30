@@ -15,6 +15,11 @@ ALane::ALane()
 	LaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
 	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
 
+	// Create the left mesh component
+	LaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLaneMesh"));
+	LaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
+	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
+
 
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;

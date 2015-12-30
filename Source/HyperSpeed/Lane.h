@@ -13,6 +13,14 @@ class HYPERSPEED_API ALane : public AActor
 	/* The mesh component */
 	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* LaneMeshComponent;
+
+	/* The left side mesh component */
+	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* LeftLaneMeshComponent;
+
+	/* The right side mesh component */
+	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* RightLaneMeshComponent;
 	
 public:	
 	// Sets default values for this actor's properties
