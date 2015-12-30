@@ -20,6 +20,8 @@ ALane::ALane()
 	LaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
 	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
 
+	LaneMeshComponent->AddLocalOffset(FVector(10.0f, 10.0f, 10.0f));
+
 
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
