@@ -10,6 +10,10 @@ class HYPERSPEED_API ALane : public AActor
 {
 	GENERATED_BODY()
 
+	/* The scene component */
+	UPROPERTY(Category = Scene, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class USceneComponent* SceneComponent;
+
 	/* The mesh component */
 	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* LaneMeshComponent;
@@ -31,6 +35,8 @@ public:
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
+
+	void SetupOrientation();
 
 	
 	

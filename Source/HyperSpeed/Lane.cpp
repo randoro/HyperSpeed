@@ -7,22 +7,27 @@
 // Sets default values
 ALane::ALane()
 {
+	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComp"));
+
+	RootComponent = SceneComponent;
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> ShipMesh(TEXT("/Game/Geometry/Meshes/1M_Cube.1M_Cube"));
 	// Create the mesh component
 	LaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LaneMesh"));
-	RootComponent = LaneMeshComponent;
+	LaneMeshComponent->AttachTo(RootComponent);
 	LaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
 	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
-	LaneMeshComponent->AddWorldTransform(FTransform(FVector(0.0f, 0.0f, 0.0f)));
+	LaneMeshComponent->AddLocalTransform(FTransform(FVector(100.0f, 0.0f, 0.0f)));
 
 	// Create the left mesh component
 	LeftLaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLaneMesh"));
 	//RootComponent = LeftLaneMeshComponent;
 	LeftLaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
 	LeftLaneMeshComponent->SetStaticMesh(ShipMesh.Object);
-	LeftLaneMeshComponent->SetWorldTransform(LaneMeshComponent->GetComponentTransform());
-	LeftLaneMeshComponent->AddWorldTransform(FTransform(FVector(0.0f, -10.0f, 0.0f)));
+	LeftLaneMeshComponent->AttachTo(RootComponent);
+	//SetupOrientation();
+	//LeftLaneMeshComponent->SetRelativeLocation(LaneMeshComponent->RelativeLocation);
+	//LeftLaneMeshComponent->AddWorldTransform(FTransform(FVector(0.0f, -10.0f, 0.0f)));
 
 	//// Create the right mesh component
 	//RightLaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLaneMesh"));
@@ -37,10 +42,28 @@ ALane::ALane()
 
 }
 
+void ALane::SetupOrientation()
+{
+	FVector Position;
+	Position.X = 0.0f;
+	Position.Y = 0.0f;
+	Position.Z = 1000.0f;
+
+	FRotator Rotation;
+	Rotation.Yaw = 0.0f;
+	Rotation.Pitch = 0.0f;
+	Rotation.Roll = 0.0f;
+
+	LeftLaneMeshComponent->SetMobility(EComponentMobility::Movable);
+	LeftLaneMeshComponent->SetWorldLocationAndRotation(Position, Rotation);
+}
+
 // Called when the game starts or when spawned
 void ALane::BeginPlay()
 {
 	Super::BeginPlay();
+	
+
 	
 }
 
