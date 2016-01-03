@@ -38,6 +38,8 @@ public:
 
 	void SetupOrientation();
 
+	void InitializeComponents();
+
 	
 	
 };
