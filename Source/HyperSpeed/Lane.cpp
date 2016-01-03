@@ -74,6 +74,10 @@ void ALane::SetupOrientation()
 	RightLaneScale.Y = 0.2f;
 	RightLaneScale.Z = 1.0f;
 
+	FVector TriggerScale;
+	TriggerScale.X = 1.0f;
+	TriggerScale.Y = 12.0f;
+	TriggerScale.Z = 1.0f;
 
 
 	//Position
@@ -87,12 +91,18 @@ void ALane::SetupOrientation()
 	RightLanePosition.Y = 590.0f;
 	RightLanePosition.Z = 100.0f;
 
+	FVector TriggerPosition;
+	TriggerPosition.X = 1450.0f;
+	TriggerPosition.Y = 0.0f;
+	TriggerPosition.Z = 100.0f;
+
 	//Scale
 	LaneMeshComponent->SetWorldScale3D(LaneScale);
 	
 	//Position
 	LeftLaneMeshComponent->AddLocalTransform(FTransform(NoRotation, LeftLanePosition, LeftLaneScale));
 	RightLaneMeshComponent->AddLocalTransform(FTransform(NoRotation, RightLanePosition, RightLaneScale));
+	LaneTrigger->AddLocalTransform(FTransform(NoRotation, TriggerPosition, TriggerScale));
 
 }
 
@@ -117,6 +127,13 @@ void ALane::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, i
 	if (OtherActor->IsA(AHyperSpeedPawn::StaticClass()))
 	{
 		LaneMeshComponent->SetVisibility(false);
+
+		FVector NewPosition = this->GetActorLocation();
+		NewPosition.X += 3000.0f;
+
+		FTransform NewTransform = FTransform(this->GetActorRotation(), NewPosition, this->GetActorScale3D());
+		GetWorld()->SpawnActor<ALane>(GetClass(), NewPosition, FRotator::ZeroRotator);
+		//GetWorld()->SpawnActor<ALane>(NextLaneClass, NewTransform);
 		//AStarWingGameMode* gm = (AStarWingGameMode*)GetWorld()->GetAuthGameMode();
 		//gm->AddTime(3000);
 	}
