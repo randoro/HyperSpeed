@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HyperSpeed.h"
+#include "HyperSpeedPawn.h"
 #include "Lane.h"
 
 
@@ -11,6 +12,7 @@ ALane::ALane()
 	LaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LaneMesh"));
 	LeftLaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLaneMesh"));
 	RightLaneMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLaneMesh"));
+	LaneTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerMesh0"));
 
 	InitializeComponents();
 
@@ -45,7 +47,9 @@ void ALane::InitializeComponents()
 	RightLaneMeshComponent->SetStaticMesh(ShipMesh.Object);
 	RightLaneMeshComponent->AttachTo(RootComponent);
 
-
+	LaneTrigger->AttachTo(RootComponent);
+	LaneTrigger->OnComponentBeginOverlap.AddDynamic(this, &ALane::OnBeginOverlap);
+	LaneTrigger->OnComponentEndOverlap.AddDynamic(this, &ALane::OnEndOverlap);
 
 }
 
@@ -108,3 +112,18 @@ void ALane::Tick( float DeltaTime )
 
 }
 
+void ALane::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+	if (OtherActor->IsA(AHyperSpeedPawn::StaticClass()))
+	{
+		LaneMeshComponent->SetVisibility(false);
+		//AStarWingGameMode* gm = (AStarWingGameMode*)GetWorld()->GetAuthGameMode();
+		//gm->AddTime(3000);
+	}
+}
+
+
+void ALane::OnEndOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	LaneMeshComponent->SetVisibility(true);
+}

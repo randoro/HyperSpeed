@@ -25,10 +25,19 @@ class HYPERSPEED_API ALane : public AActor
 	/* The right side mesh component */
 	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* RightLaneMeshComponent;
+
+	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* LaneTrigger;
+
+	UFUNCTION()
+		void OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	UFUNCTION()
+		void OnEndOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	
 public:	
 	// Sets default values for this actor's properties
 	ALane();
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
