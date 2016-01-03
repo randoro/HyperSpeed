@@ -51,30 +51,44 @@ void ALane::InitializeComponents()
 
 void ALane::SetupOrientation()
 {
+	FRotator NoRotation = FRotator(0.0f, 0.0f, 0.0f);
+	float TrackLength = 30.0f;
 
+	//Scale
 	FVector LaneScale;
-	LaneScale.X = 1.0f;
+	LaneScale.X = TrackLength;
 	LaneScale.Y = 12.0f;
 	LaneScale.Z = 1.0f;
+
+	FVector LeftLaneScale;
+	LeftLaneScale.X = TrackLength;
+	LeftLaneScale.Y = 0.2f;
+	LeftLaneScale.Z = 1.0f;
+
+	FVector RightLaneScale;
+	RightLaneScale.X = TrackLength;
+	RightLaneScale.Y = 0.2f;
+	RightLaneScale.Z = 1.0f;
 
 
 
 	//Position
 	FVector LeftLanePosition;
 	LeftLanePosition.X = 0.0f;
-	LeftLanePosition.Y = 100.0f;
-	LeftLanePosition.Z = 10.0f;
+	LeftLanePosition.Y = -590.0f;
+	LeftLanePosition.Z = 100.0f;
 
 	FVector RightLanePosition;
 	RightLanePosition.X = 0.0f;
-	RightLanePosition.Y = -100.0f;
-	RightLanePosition.Z = 10.0f;
+	RightLanePosition.Y = 590.0f;
+	RightLanePosition.Z = 100.0f;
 
 	//Scale
-	LaneMeshComponent->SetRelativeScale3D(LaneScale);
+	LaneMeshComponent->SetWorldScale3D(LaneScale);
+	
 	//Position
-	LeftLaneMeshComponent->AddLocalTransform(FTransform(LeftLanePosition));
-	RightLaneMeshComponent->AddLocalTransform(FTransform(RightLanePosition));
+	LeftLaneMeshComponent->AddLocalTransform(FTransform(NoRotation, LeftLanePosition, LeftLaneScale));
+	RightLaneMeshComponent->AddLocalTransform(FTransform(NoRotation, RightLanePosition, RightLaneScale));
 
 }
 
