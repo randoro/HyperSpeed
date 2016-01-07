@@ -144,10 +144,17 @@ void ALane::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, i
 
 void ALane::OnEndOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	LaneMeshComponent->SetVisibility(true);
+	if (PrevLaneClass != NULL) 
+	{
+		PrevLaneClass->Destroy();
+	}
+
 }
 
 void ALane::LinkWithLane(ALane* OldLane)
 {
-	PrevLaneClass = OldLane;
+	if (PrevLaneClass != NULL)
+	{
+		PrevLaneClass = OldLane;
+	}
 }
