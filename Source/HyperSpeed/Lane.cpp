@@ -132,7 +132,9 @@ void ALane::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, i
 		NewPosition.X += 3000.0f;
 
 		FTransform NewTransform = FTransform(this->GetActorRotation(), NewPosition, this->GetActorScale3D());
-		GetWorld()->SpawnActor<ALane>(GetClass(), NewPosition, FRotator::ZeroRotator);
+		NextLaneClass = GetWorld()->SpawnActor<ALane>(GetClass(), NewPosition, FRotator::ZeroRotator);
+		NextLaneClass->LinkWithLane(this);
+		//NextLaneClass->
 		//GetWorld()->SpawnActor<ALane>(NextLaneClass, NewTransform);
 		//AStarWingGameMode* gm = (AStarWingGameMode*)GetWorld()->GetAuthGameMode();
 		//gm->AddTime(3000);
@@ -143,4 +145,9 @@ void ALane::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, i
 void ALane::OnEndOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	LaneMeshComponent->SetVisibility(true);
+}
+
+void ALane::LinkWithLane(ALane* OldLane)
+{
+	PrevLaneClass = OldLane;
 }

@@ -34,9 +34,13 @@ class HYPERSPEED_API ALane : public AActor
 	UFUNCTION()
 		void OnEndOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<ALane> NextLaneClass;
+	void LinkWithLane(ALane* OldLane);
 
+	UPROPERTY(EditAnywhere)
+		ALane* NextLaneClass;
+
+	UPROPERTY(EditAnywhere)
+		ALane* PrevLaneClass;
 	
 public:	
 	// Sets default values for this actor's properties
