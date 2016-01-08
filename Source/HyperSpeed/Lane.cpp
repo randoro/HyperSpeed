@@ -50,6 +50,8 @@ void ALane::InitializeComponents()
 	LaneTrigger->AttachTo(RootComponent);
 	LaneTrigger->OnComponentBeginOverlap.AddDynamic(this, &ALane::OnBeginOverlap);
 	LaneTrigger->OnComponentEndOverlap.AddDynamic(this, &ALane::OnEndOverlap);
+	LaneTrigger->SetBoxExtent(FVector(50.0f, 50.0f, 50.0f));
+	LaneTrigger->SetCollisionProfileName(TEXT("Trigger"));
 
 }
 
@@ -75,7 +77,7 @@ void ALane::SetupOrientation()
 	RightLaneScale.Z = 1.0f;
 
 	FVector TriggerScale;
-	TriggerScale.X = 1.0f;
+	TriggerScale.X = TrackLength;
 	TriggerScale.Y = 12.0f;
 	TriggerScale.Z = 1.0f;
 
@@ -92,7 +94,7 @@ void ALane::SetupOrientation()
 	RightLanePosition.Z = 100.0f;
 
 	FVector TriggerPosition;
-	TriggerPosition.X = 1450.0f;
+	TriggerPosition.X = 0.0f;
 	TriggerPosition.Y = 0.0f;
 	TriggerPosition.Z = 100.0f;
 
@@ -126,7 +128,6 @@ void ALane::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, i
 {
 	if (OtherActor->IsA(AHyperSpeedPawn::StaticClass()))
 	{
-		LaneMeshComponent->SetVisibility(false);
 
 		FVector NewPosition = this->GetActorLocation();
 		NewPosition.X += 3000.0f;
@@ -153,8 +154,5 @@ void ALane::OnEndOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int
 
 void ALane::LinkWithLane(ALane* OldLane)
 {
-	if (PrevLaneClass != NULL)
-	{
-		PrevLaneClass = OldLane;
-	}
+	PrevLaneClass = OldLane;
 }
