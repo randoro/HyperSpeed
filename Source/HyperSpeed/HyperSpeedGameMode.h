@@ -2,6 +2,7 @@
 #pragma once
 
 #include "GameFramework/GameMode.h"
+#include "LevelGenerator.h"
 #include "HyperSpeedGameMode.generated.h"
 
 
@@ -10,8 +11,14 @@ class AHyperSpeedGameMode : public AGameMode
 {
 	GENERATED_BODY()
 
+	
+	
+
+
 public:
 	AHyperSpeedGameMode();
+
+	class ALevelGenerator* LevelGenerator;
 };
 
 

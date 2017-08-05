@@ -3,7 +3,10 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "LevelGenerator.h"
+#include "HyperSpeedGameMode.h"
 #include "Lane.generated.h"
+
 
 UCLASS()
 class HYPERSPEED_API ALane : public AActor
@@ -29,6 +32,7 @@ class HYPERSPEED_API ALane : public AActor
 	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* LaneTrigger;
 
+
 	UFUNCTION()
 		void OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 	UFUNCTION()
@@ -37,10 +41,13 @@ class HYPERSPEED_API ALane : public AActor
 	void LinkWithLane(ALane* OldLane);
 
 	UPROPERTY(EditAnywhere)
-		ALane* NextLaneClass;
+	class ALane* NextLaneClass;
 
 	UPROPERTY(EditAnywhere)
-		ALane* PrevLaneClass;
+	class ALane* PrevLaneClass;
+
+	UPROPERTY(EditAnywhere)
+	class AHyperSpeedGameMode* GameMode;
 	
 public:	
 	// Sets default values for this actor's properties

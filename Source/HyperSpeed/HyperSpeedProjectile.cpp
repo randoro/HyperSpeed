@@ -23,7 +23,7 @@ AHyperSpeedProjectile::AHyperSpeedProjectile()
 	ProjectileMovement->InitialSpeed = 3000.f;
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
-	ProjectileMovement->bShouldBounce = false;
+	ProjectileMovement->bShouldBounce = true;
 	ProjectileMovement->ProjectileGravityScale = 0.f; // No gravity
 
 	// Die after 3 seconds by default
@@ -38,5 +38,5 @@ void AHyperSpeedProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* Other
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());
 	}
 
-	Destroy();
+	//Destroy();
 }

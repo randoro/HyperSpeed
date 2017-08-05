@@ -62,14 +62,15 @@ void AHyperSpeedPawn::Tick(float DeltaSeconds)
 	const float RightValue = GetInputAxisValue(MoveRightBinding);
 
 	// Clamp max size so that (X=1, Y=1) doesn't cause faster movement in diagonal directions
-	const FVector MoveDirection = FVector(ForwardValue, RightValue, 0.f).GetClampedToMaxSize(1.0f);
+	const FVector MoveDirection = FVector(FMath::Clamp(ForwardValue + 0.5f, 0.25f, 1.0f), RightValue, 0.f).GetClampedToMaxSize(1.0f);
 
 	// Calculate  movement
 	const FVector Movement = MoveDirection * MoveSpeed * DeltaSeconds;
 
-	// If non-zero size, move this actor
+	// If non-zero size and positive, move this actor
 	if (Movement.SizeSquared() > 0.0f)
 	{
+
 		const FRotator NewRotation = FRotator(0.f, 0.f, 0.f);//= Movement.Rotation();
 		FHitResult Hit(1.f);
 		RootComponent->MoveComponent(Movement, NewRotation, true, &Hit);
@@ -85,7 +86,7 @@ void AHyperSpeedPawn::Tick(float DeltaSeconds)
 	// Create fire direction vector
 	const float FireForwardValue = GetInputAxisValue(FireForwardBinding);
 	const float FireRightValue = GetInputAxisValue(FireRightBinding);
-	const FVector FireDirection = FVector(FireForwardValue, FireRightValue, 0.f);
+	const FVector FireDirection = FVector(FireForwardValue, FireRightValue * 0.1f, 0.f);
 
 	// Try and fire a shot
 	FireShot(FireDirection);

@@ -26,8 +26,10 @@ ALane::ALane()
 
 void ALane::InitializeComponents()
 {
+
 	//Create static texture
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> ShipMesh(TEXT("/Game/Geometry/Meshes/1M_Cube.1M_Cube"));
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> CheckerMat(TEXT("/Game/StarterContent/Materials/M_Metal_Burnished_Steel.M_Metal_Burnished_Steel"));//M_Ceramic_Tile_Checker.M_Ceramic_Tile_Checker"));
 
 	//SceneComponent
 	RootComponent = SceneComponent;
@@ -36,6 +38,7 @@ void ALane::InitializeComponents()
 	LaneMeshComponent->AttachTo(RootComponent);
 	LaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
 	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
+	LaneMeshComponent->SetMaterial(0, CheckerMat.Object);
 
 	//Left
 	LeftLaneMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
@@ -112,9 +115,10 @@ void ALane::SetupOrientation()
 void ALane::BeginPlay()
 {
 	Super::BeginPlay();
-	
 
-	
+	//Reference Gamemode
+	GameMode = (AHyperSpeedGameMode*)GetWorld()->GetAuthGameMode();
+
 }
 
 // Called every frame
@@ -135,6 +139,9 @@ void ALane::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp, i
 		FTransform NewTransform = FTransform(this->GetActorRotation(), NewPosition, this->GetActorScale3D());
 		NextLaneClass = GetWorld()->SpawnActor<ALane>(GetClass(), NewPosition, FRotator::ZeroRotator);
 		NextLaneClass->LinkWithLane(this);
+
+		GameMode->LevelGenerator->GenerateSegment(NewTransform);
+
 		//NextLaneClass->
 		//GetWorld()->SpawnActor<ALane>(NextLaneClass, NewTransform);
 		//AStarWingGameMode* gm = (AStarWingGameMode*)GetWorld()->GetAuthGameMode();

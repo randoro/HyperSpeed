@@ -8,5 +8,6 @@ AHyperSpeedGameMode::AHyperSpeedGameMode()
 {
 	// set default pawn class to our character class
 	DefaultPawnClass = AHyperSpeedPawn::StaticClass();
+	UE_LOG(LogTemp, Warning, TEXT("Setting default pawn."));
 }
 
