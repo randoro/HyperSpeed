@@ -15,9 +15,10 @@ AHyperSpeedPawn::AHyperSpeedPawn()
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> ShipMesh(TEXT("/Game/TwinStick/Meshes/TwinStickUFO.TwinStickUFO"));
 	// Create the mesh component
 	ShipMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipMesh"));
-	RootComponent = ShipMeshComponent;
 	ShipMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
 	ShipMeshComponent->SetStaticMesh(ShipMesh.Object);
+	ShipMeshComponent->OnComponentHit.AddDynamic(this, &AHyperSpeedPawn::OnHit);		// set up a notification for when this component hits something
+	RootComponent = ShipMeshComponent;
 	
 	// Cache our sound effect
 	static ConstructorHelpers::FObjectFinder<USoundBase> FireAudio(TEXT("/Game/TwinStick/Audio/TwinStickFire.TwinStickFire"));
@@ -128,5 +129,16 @@ void AHyperSpeedPawn::FireShot(FVector FireDirection)
 void AHyperSpeedPawn::ShotTimerExpired()
 {
 	bCanFire = true;
+}
+
+void AHyperSpeedPawn::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	// Only add impulse and destroy projectile if we hit a physics
+	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
+	{
+		OtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());
+	}
+
+	//Destroy();
 }
 
