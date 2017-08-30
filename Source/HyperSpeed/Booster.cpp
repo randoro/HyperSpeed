@@ -67,7 +67,7 @@ void ABooster::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp
 				otherV->SetPhysicsLinearVelocity(otherV->GetPhysicsLinearVelocity() * 1.10f); //Cap to max speed
 				//FVector vel = otherV->Velocity;
 				//otherV->MaxEngineRPM = 32000.0f;
-				UE_LOG(LogTemp, Warning, TEXT("Enter and gain 10% Velocity"));
+				UE_LOG(LogTemp, Warning, TEXT("Enter and gain 10% Velocity now its FVector X:%f Y:%f Z:%f"), otherV->GetPhysicsLinearVelocity().X, otherV->GetPhysicsLinearVelocity().Y, otherV->GetPhysicsLinearVelocity().Z);
 				
 			}
 			//do stuff with FoundComp
