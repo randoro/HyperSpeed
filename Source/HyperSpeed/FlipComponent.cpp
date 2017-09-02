@@ -154,35 +154,50 @@ void UFlipComponent::ChangeColor(float AxisValue)
 	if (AxisValue == 0.0f) 
 	{
 		if (!isInsidePurple) {
-			UE_LOG(LogTemp, Warning, TEXT("Car Switched to Purple"));
-			CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel7);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);
-			CarMeshComponent->SetNotifyRigidBodyCollision(true);
-			RecreatePhysicsState();
+			
+			if (color != 0)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Purple"));
+				//Switch Color, collision and material color
+				color = 0;
+				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel7);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);
+				CarMeshComponent->SetNotifyRigidBodyCollision(true);
+				RecreatePhysicsState();
+			}
 		}
 	}
 	else if (AxisValue < 0.0f) {
 		if (!isInsidePink) {
-			UE_LOG(LogTemp, Warning, TEXT("Car Switched to Pink"));
-			CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel5);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
-			CarMeshComponent->SetNotifyRigidBodyCollision(true);
-			RecreatePhysicsState();
+			if (color != 1)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Pink"));
+				color = 1;
+				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel5);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetNotifyRigidBodyCollision(true);
+				RecreatePhysicsState();
+			}
 		}
 	}
 	else if (AxisValue > 0.0f) {
 		if (!isInsideBlue) {
-			UE_LOG(LogTemp, Warning, TEXT("Car Switched to Blue"));
-			CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel6);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
-			CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
-			CarMeshComponent->SetNotifyRigidBodyCollision(true);
-			RecreatePhysicsState();
+			
+			if (color != 2)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Blue"));
+				color = 2;
+				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel6);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetNotifyRigidBodyCollision(true);
+				RecreatePhysicsState();
+			}
 		}
 	}
 	

@@ -27,6 +27,9 @@ class HYPERSPEED_API UFlipComponent : public UActorComponent
 	UPROPERTY(Category = "Jumping", EditAnywhere)
 		float JumpPercentageIncreaseFromVelocity;
 
+	UPROPERTY(Category = "Color", EditAnywhere)
+		INT32 color;
+
 public:	
 	// Sets default values for this component's properties
 	UFlipComponent();
