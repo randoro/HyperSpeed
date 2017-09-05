@@ -2,6 +2,7 @@
 
 #include "HyperSpeed.h"
 #include "FlipComponent.h"
+#include "Runtime/Engine/Classes/Kismet/KismetMaterialLibrary.h"
 
 
 // Sets default values for this component's properties
@@ -160,6 +161,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Purple"));
 				//Switch Color, collision and material color
 				color = 0;
+				ChangeColorCollection(color);
 				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel7);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
@@ -175,6 +177,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Pink"));
 				color = 1;
+				ChangeColorCollection(color);
 				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel5);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
@@ -191,6 +194,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Blue"));
 				color = 2;
+				ChangeColorCollection(color);
 				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel6);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
@@ -199,6 +203,49 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				RecreatePhysicsState();
 			}
 		}
+	}
+	
+}
+
+void UFlipComponent::ChangeColorCollection(int CheckColor)
+{
+	if (!MyParameterCollection)
+	{
+		MyParameterCollection = LoadObject<UMaterialParameterCollection>(NULL, TEXT("MaterialParameterCollection'/Game/ColorCode.ColorCode'"), NULL, LOAD_None, NULL);
+	}
+
+	FLinearColor PurpleColor = FLinearColor(0.415319f, 0.0f, 0.74f);
+	FLinearColor PinkColor = FLinearColor(0.887923f, 0.031896f, 0.630757f);
+	FLinearColor BlueColor = FLinearColor(0.0f, 0.434154f, 0.887923f);
+
+	switch (CheckColor)
+	{
+	case 0:
+		
+		
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BaseColor")), PurpleColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveColor")), PurpleColor);
+
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("Opacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveStrength")), 10.0f);
+		break;
+	case 1:
+		
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BaseColor")), PinkColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveColor")), PinkColor);
+
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("Opacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveStrength")), 10.0f);
+		break;
+	case 2:
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BaseColor")), BlueColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveColor")), BlueColor);
+
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("Opacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveStrength")), 10.0f);
+		break;
+	default:
+		break;
 	}
 	
 }

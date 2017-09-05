@@ -20,6 +20,9 @@ class HYPERSPEED_API UFlipComponent : public UActorComponent
 	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UWheeledVehicleMovementComponent4W* VehicleMovementComponent;
 
+	UPROPERTY(Category = "Material", VisibleAnywhere)
+	class UMaterialParameterCollection* MyParameterCollection;
+
 	
 	UPROPERTY(Category = "Jumping", EditAnywhere)
 	float JumpHeight;
@@ -28,7 +31,7 @@ class HYPERSPEED_API UFlipComponent : public UActorComponent
 		float JumpPercentageIncreaseFromVelocity;
 
 	UPROPERTY(Category = "Color", EditAnywhere)
-		INT32 color;
+		int32 color;
 
 public:	
 	// Sets default values for this component's properties
@@ -46,5 +49,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Color")
 		void ChangeColor(float AxisValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Color")
+		void ChangeColorCollection(int32 CheckColor);
 
 };
