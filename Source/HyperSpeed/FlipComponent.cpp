@@ -122,9 +122,10 @@ void UFlipComponent::ChangeColor(float AxisValue)
 {
 	TArray<AActor*> CraftingActors;
 	CarMeshComponent->GetOverlappingActors(CraftingActors);
+	bool isInsideYellow = false;
 	bool isInsidePink = false;
 	bool isInsideBlue = false;
-	bool isInsidePurple = false;
+	
 	for (AActor* Actor : CraftingActors)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Actor detected!"));
@@ -133,18 +134,18 @@ void UFlipComponent::ChangeColor(float AxisValue)
 
 		if (channel == ECollisionChannel::ECC_GameTraceChannel2)
 		{
-			isInsidePink = true;
-			UE_LOG(LogTemp, Warning, TEXT("Pink: {0}"), isInsidePink);
+			isInsideYellow = true;
+			UE_LOG(LogTemp, Warning, TEXT("Yellow: {0}"), isInsideYellow);
 		}
 		else if (channel == ECollisionChannel::ECC_GameTraceChannel3)
 		{
-			isInsideBlue = true;
-			UE_LOG(LogTemp, Warning, TEXT("Blue: {0}"), isInsideBlue);
+			isInsidePink = true;
+			UE_LOG(LogTemp, Warning, TEXT("Pink: {0}"), isInsidePink);
 		}
 		else if (channel == ECollisionChannel::ECC_GameTraceChannel4)
 		{
-			isInsidePurple = true;
-			UE_LOG(LogTemp, Warning, TEXT("Purple: {0}"), isInsidePurple);
+			isInsideBlue = true;
+			UE_LOG(LogTemp, Warning, TEXT("Blue: {0}"), isInsideBlue);
 		}
 	}
 
@@ -154,17 +155,17 @@ void UFlipComponent::ChangeColor(float AxisValue)
 
 	if (AxisValue == 0.0f) 
 	{
-		if (!isInsidePurple) {
+		if (!isInsidePink && !isInsideBlue) {
 			
 			if (color != 0)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Purple"));
+				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Yellow"));
 				//Switch Color, collision and material color
 				color = 0;
 				ChangeColorCollection(color);
-				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel7);
+				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel5);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetNotifyRigidBodyCollision(true);
 				RecreatePhysicsState();
@@ -172,31 +173,31 @@ void UFlipComponent::ChangeColor(float AxisValue)
 		}
 	}
 	else if (AxisValue < 0.0f) {
-		if (!isInsidePink) {
+		if (!isInsideYellow && !isInsideBlue) {
 			if (color != 1)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Pink"));
 				color = 1;
 				ChangeColorCollection(color);
-				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel5);
+				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel6);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetNotifyRigidBodyCollision(true);
 				RecreatePhysicsState();
 			}
 		}
 	}
 	else if (AxisValue > 0.0f) {
-		if (!isInsideBlue) {
+		if (!isInsideYellow && !isInsidePink) {
 			
 			if (color != 2)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Blue"));
 				color = 2;
 				ChangeColorCollection(color);
-				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel6);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
+				CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel7);
+				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
 				CarMeshComponent->SetNotifyRigidBodyCollision(true);
@@ -214,35 +215,49 @@ void UFlipComponent::ChangeColorCollection(int CheckColor)
 		MyParameterCollection = LoadObject<UMaterialParameterCollection>(NULL, TEXT("MaterialParameterCollection'/Game/ColorCode.ColorCode'"), NULL, LOAD_None, NULL);
 	}
 
-	FLinearColor PurpleColor = FLinearColor(0.415319f, 0.0f, 0.74f);
-	FLinearColor PinkColor = FLinearColor(0.887923f, 0.031896f, 0.630757f);
-	FLinearColor BlueColor = FLinearColor(0.0f, 0.434154f, 0.887923f);
+	FLinearColor YellowColor = FLinearColor(0.745f, 0.407f, 0.0f);
+	FLinearColor PinkColor = FLinearColor(0.888f, 0.032f, 0.631f);
+	FLinearColor BlueColor = FLinearColor(0.0f, 0.434f, 0.888f);
 
 	switch (CheckColor)
 	{
 	case 0:
 		
 		
-		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BaseColor")), PurpleColor);
-		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveColor")), PurpleColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowBaseColor")), YellowColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowEmissiveColor")), YellowColor);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowOpacity")), 0.5f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowEmissiveStrength")), 0.5f);
 
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("Opacity")), 1.0f);
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveStrength")), 10.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkOpacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkEmissiveStrength")), 5.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueOpacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueEmissiveStrength")), 5.0f);
+
 		break;
 	case 1:
 		
-		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BaseColor")), PinkColor);
-		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveColor")), PinkColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkBaseColor")), PinkColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkEmissiveColor")), PinkColor);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkOpacity")), 0.5f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkEmissiveStrength")), 0.5f);
 
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("Opacity")), 1.0f);
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveStrength")), 10.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowOpacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowEmissiveStrength")), 5.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueOpacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueEmissiveStrength")), 5.0f);
 		break;
 	case 2:
-		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BaseColor")), BlueColor);
-		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveColor")), BlueColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueBaseColor")), BlueColor);
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueEmissiveColor")), BlueColor);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueOpacity")), 0.5f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueEmissiveStrength")), 0.5f);
 
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("Opacity")), 1.0f);
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("EmissiveStrength")), 10.0f);
+
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowOpacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowEmissiveStrength")), 5.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkOpacity")), 1.0f);
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkEmissiveStrength")), 5.0f);
 		break;
 	default:
 		break;
