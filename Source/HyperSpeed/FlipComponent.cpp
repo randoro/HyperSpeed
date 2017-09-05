@@ -222,7 +222,7 @@ void UFlipComponent::ChangeColorCollection(int CheckColor)
 	switch (CheckColor)
 	{
 	case 0:
-		
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("CarColor")), YellowColor);
 		
 		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowBaseColor")), YellowColor);
 		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("YellowEmissiveColor")), YellowColor);
@@ -236,6 +236,7 @@ void UFlipComponent::ChangeColorCollection(int CheckColor)
 
 		break;
 	case 1:
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("CarColor")), PinkColor);
 		
 		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkBaseColor")), PinkColor);
 		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("PinkEmissiveColor")), PinkColor);
@@ -248,6 +249,8 @@ void UFlipComponent::ChangeColorCollection(int CheckColor)
 		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueEmissiveStrength")), 5.0f);
 		break;
 	case 2:
+		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("CarColor")), BlueColor);
+
 		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueBaseColor")), BlueColor);
 		UKismetMaterialLibrary::SetVectorParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueEmissiveColor")), BlueColor);
 		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MyParameterCollection, FName(TEXT("BlueOpacity")), 0.5f);
