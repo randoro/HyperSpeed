@@ -168,7 +168,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetNotifyRigidBodyCollision(true);
-				RecreatePhysicsState();
+				//RecreatePhysicsState();
 			}
 		}
 	}
@@ -184,7 +184,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetNotifyRigidBodyCollision(true);
-				RecreatePhysicsState();
+				//RecreatePhysicsState();
 			}
 		}
 	}
@@ -201,7 +201,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
 				CarMeshComponent->SetNotifyRigidBodyCollision(true);
-				RecreatePhysicsState();
+				//RecreatePhysicsState();
 			}
 		}
 	}
