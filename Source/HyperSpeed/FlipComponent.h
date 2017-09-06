@@ -23,6 +23,9 @@ class HYPERSPEED_API UFlipComponent : public UActorComponent
 	UPROPERTY(Category = "Material", VisibleAnywhere)
 	class UMaterialParameterCollection* MyParameterCollection;
 
+	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* BoxMeshComponent;
+
 	
 	UPROPERTY(Category = "Jumping", EditAnywhere)
 	float JumpHeight;
