@@ -24,15 +24,17 @@ AColoredCube::AColoredCube()
 
 
 	LaneMeshComponent->AttachTo(RootComponent);
-	LaneMeshComponent->SetCollisionProfileName(FName("YellowObject"));
+	//LaneMeshComponent->SetCollisionProfileName(FName("YellowObject"));
 	LaneMeshComponent->SetStaticMesh(ShipMesh.Object);
-	LaneMeshComponent->SetMaterial(0, YellowMaterialRef.Object);
+	//LaneMeshComponent->SetMaterial(0, YellowMaterialRef.Object);
 
 	LaneTrigger->AttachTo(LaneMeshComponent);
 	LaneTrigger->OnComponentBeginOverlap.AddDynamic(this, &AColoredCube::OnBeginOverlap);
 	LaneTrigger->OnComponentEndOverlap.AddDynamic(this, &AColoredCube::OnEndOverlap);
 	LaneTrigger->SetBoxExtent(FVector(50.0f, 50.0f, 50.0f));
-	LaneTrigger->SetCollisionProfileName(FName("ColorTrigger"));
+	//LaneTrigger->SetCollisionProfileName(FName("ColorTrigger"));
+
+	SetMeshColorSettings(EHyperColorEnum::HC_Yellow);
 
 	this->OnActorHit.AddDynamic(this, &AColoredCube::OnHit);
 
@@ -71,7 +73,6 @@ void AColoredCube::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* Other
 
 		if (FlipComp) {
 
-			//float AxisColor = GetInput(FName("Color"));
 			ECollisionChannel channel = OtherActor->GetRootComponent()->GetCollisionObjectType();
 
 			if (channel == ECollisionChannel::ECC_GameTraceChannel5)

@@ -30,13 +30,6 @@ void UFlipComponent::BeginPlay()
 		if (Comps[i]->IsA(USkeletalMeshComponent::StaticClass()))
 		{
 			CarMeshComponent = Comps[i];
-			/*FRotator SkellRotation = CarMeshComponent->GetComponentRotation();
-			SkellRotation.Roll = 0.0f;
-			SkellRotation.Pitch = 0.0f;
-			SkellRotation.Yaw = 0.0f;
-
-			CarMeshComponent->SetAllPhysicsRotation(SkellRotation);*/
-
 		}
 	}
 
@@ -47,13 +40,6 @@ void UFlipComponent::BeginPlay()
 		if (Comps2[i]->IsA(UWheeledVehicleMovementComponent4W::StaticClass()))
 		{
 			VehicleMovementComponent = Comps2[i];
-			/*FRotator SkellRotation = CarMeshComponent->GetComponentRotation();
-			SkellRotation.Roll = 0.0f;
-			SkellRotation.Pitch = 0.0f;
-			SkellRotation.Yaw = 0.0f;
-
-			CarMeshComponent->SetAllPhysicsRotation(SkellRotation);*/
-
 		}
 	}
 
@@ -92,20 +78,6 @@ void UFlipComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActor
 			CarMeshComponent->SetPhysicsLinearVelocity(vel);
 		}
 	}
-
-//	FRotator SkellRotation = CarMeshComponent->GetComponentRotation();
-//	/*SkellRotation.Roll += 0.0f;
-//	SkellRotation.Pitch += 1.0f;
-//	SkellRotation.Yaw += 0.0f;
-//	FQuat quat = SkellRotation.Quaternion();
-//	quat.X
-//*/
-//	CarMeshComponent->SetAllPhysicsRotation(SkellRotation);
-
-	/*AActor* actor = GetOwner();
-	FRotator ActorRotation = actor->GetActorRotation();
-	ActorRotation.Pitch += 5.0f;
-	actor->SetActorRotation(ActorRotation);*/
 }
 
 void UFlipComponent::DoJump(bool isOnGround) {
@@ -124,45 +96,11 @@ void UFlipComponent::DoJump(bool isOnGround) {
 		}
 		CarMeshComponent->SetPhysicsLinearVelocity(vel);
 	}
-
-	//VehicleMovementComponent->WheelSetups[0].WheelClass->GetDefaultObject<UVehicleWheel>()
-	//VehicleMovementComponent->Wheels[0]->
 }
 
 
 void UFlipComponent::ChangeColor(float AxisValue)
 {
-	//TArray<AActor*> CraftingActors;
-	//CarMeshComponent->GetOverlappingActors(CraftingActors);
-	/*bool isInsideYellow = false;
-	bool isInsidePink = false;
-	bool isInsideBlue = false;*/
-	
-	/*for (AActor* Actor : CraftingActors)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Actor detected!"));
-
-		ECollisionChannel channel = Actor->GetRootComponent()->GetCollisionObjectType();
-
-		if (channel == ECollisionChannel::ECC_GameTraceChannel2)
-		{
-			isInsideYellow = true;
-			UE_LOG(LogTemp, Warning, TEXT("Yellow: {0}"), isInsideYellow);
-		}
-		else if (channel == ECollisionChannel::ECC_GameTraceChannel3)
-		{
-			isInsidePink = true;
-			UE_LOG(LogTemp, Warning, TEXT("Pink: {0}"), isInsidePink);
-		}
-		else if (channel == ECollisionChannel::ECC_GameTraceChannel4)
-		{
-			isInsideBlue = true;
-			UE_LOG(LogTemp, Warning, TEXT("Blue: {0}"), isInsideBlue);
-		}
-	}*/
-
-
-
 	if (!isInsideYellow && !isInsidePink && !isInsideBlue) {
 
 		if (AxisValue == 0.0f)
@@ -175,27 +113,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				//Switch Color, collision and material color
 				color = 0;
 				ChangeColorCollection(color);
-
-				/*CarMeshComponent->GetBodyInstance(FName("CarBody"))->SetCollisionProfileName(FName("YellowVehicle"));
-
-				CarMeshComponent->GetBodyInstance(FName("Tire_frontleft"))->SetCollisionProfileName(FName("YellowVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_frontleft"))->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-				CarMeshComponent->GetBodyInstance(FName("Tire_frontright"))->SetCollisionProfileName(FName("YellowVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_frontright"))->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearleft"))->SetCollisionProfileName(FName("YellowVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearleft"))->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearright"))->SetCollisionProfileName(FName("YellowVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearright"))->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);*/
-
 				CarMeshComponent->SetCollisionProfileName(FName("YellowVehicle"));
-
-				//CarMeshComponent->UpdateCollisionProfile();
-				/*CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel5);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Overlap);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);*/
-				//CarMeshComponent->SetNotifyRigidBodyCollision(true);
-				//RecreatePhysicsState();
 
 			}
 		}
@@ -206,18 +124,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Pink"));
 				color = 1;
 				ChangeColorCollection(color);
-				/*CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel6);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Overlap);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);
-				CarMeshComponent->SetNotifyRigidBodyCollision(true);*/
-				/*CarMeshComponent->GetBodyInstance(FName("Tire_frontleft"))->SetCollisionProfileName(FName("PinkVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_frontright"))->SetCollisionProfileName(FName("PinkVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearleft"))->SetCollisionProfileName(FName("PinkVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearright"))->SetCollisionProfileName(FName("PinkVehicle"));*/
 				CarMeshComponent->SetCollisionProfileName(FName("PinkVehicle"));
-
-				//RecreatePhysicsState();
 
 			}
 		}
@@ -229,17 +136,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Blue"));
 				color = 2;
 				ChangeColorCollection(color);
-				/*CarMeshComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel7);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Block);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
-				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Overlap);
-				CarMeshComponent->SetNotifyRigidBodyCollision(true);*/
-				/*CarMeshComponent->GetBodyInstance(FName("Tire_frontleft"))->SetCollisionProfileName(FName("BlueVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_frontright"))->SetCollisionProfileName(FName("BlueVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearleft"))->SetCollisionProfileName(FName("BlueVehicle"));
-				CarMeshComponent->GetBodyInstance(FName("Tire_rearright"))->SetCollisionProfileName(FName("BlueVehicle"));*/
 				CarMeshComponent->SetCollisionProfileName(FName("BlueVehicle"));
-				//RecreatePhysicsState();
 
 			}
 		}
