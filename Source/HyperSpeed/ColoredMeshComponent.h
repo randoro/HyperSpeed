@@ -6,20 +6,14 @@
 #include "Engine.h"
 #include "ColoredMeshComponent.generated.h"
 
-UENUM(BlueprintType)		//"BlueprintType" is essential to include
-enum class EHyperColorEnum : uint8
-{
-	HC_Yellow 	UMETA(DisplayName = "Yellow"),
-	HC_Pink 	UMETA(DisplayName = "Pink"),
-	HC_Blue	UMETA(DisplayName = "Blue")
-};
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class HYPERSPEED_API UColoredMeshComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-	void SetMeshColorSettings(EHyperColorEnum newColor);
+	/*void SetMeshColorSettings(EHyperColorEnum newColor);*/
 
 	UPROPERTY(Category = "Material", VisibleAnywhere)
 	class UMaterial* YellowMaterial;
@@ -45,7 +39,7 @@ public:
 
 	virtual void InitializeComponent() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
-	EHyperColorEnum CurrentColor;
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+	EHyperColorEnum CurrentColor;*/
 	
 };

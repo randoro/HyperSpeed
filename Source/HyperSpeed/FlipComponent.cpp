@@ -132,13 +132,13 @@ void UFlipComponent::DoJump(bool isOnGround) {
 
 void UFlipComponent::ChangeColor(float AxisValue)
 {
-	TArray<AActor*> CraftingActors;
-	CarMeshComponent->GetOverlappingActors(CraftingActors);
-	bool isInsideYellow = false;
+	//TArray<AActor*> CraftingActors;
+	//CarMeshComponent->GetOverlappingActors(CraftingActors);
+	/*bool isInsideYellow = false;
 	bool isInsidePink = false;
-	bool isInsideBlue = false;
+	bool isInsideBlue = false;*/
 	
-	for (AActor* Actor : CraftingActors)
+	/*for (AActor* Actor : CraftingActors)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Actor detected!"));
 
@@ -159,16 +159,16 @@ void UFlipComponent::ChangeColor(float AxisValue)
 			isInsideBlue = true;
 			UE_LOG(LogTemp, Warning, TEXT("Blue: {0}"), isInsideBlue);
 		}
-	}
+	}*/
 
 
 
+	if (!isInsideYellow && !isInsidePink && !isInsideBlue) {
+
+		if (AxisValue == 0.0f)
+		{
 
 
-	if (AxisValue == 0.0f) 
-	{
-		if (!isInsidePink && !isInsideBlue) {
-			
 			if (color != 0)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Yellow"));
@@ -186,7 +186,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				CarMeshComponent->GetBodyInstance(FName("Tire_rearleft"))->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 				CarMeshComponent->GetBodyInstance(FName("Tire_rearright"))->SetCollisionProfileName(FName("YellowVehicle"));
 				CarMeshComponent->GetBodyInstance(FName("Tire_rearright"))->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);*/
-				
+
 				CarMeshComponent->SetCollisionProfileName(FName("YellowVehicle"));
 
 				//CarMeshComponent->UpdateCollisionProfile();
@@ -196,11 +196,11 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				CarMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel4, ECollisionResponse::ECR_Block);*/
 				//CarMeshComponent->SetNotifyRigidBodyCollision(true);
 				//RecreatePhysicsState();
+
 			}
 		}
-	}
-	else if (AxisValue < 0.0f) {
-		if (!isInsideYellow && !isInsideBlue) {
+		else if (AxisValue < 0.0f) {
+
 			if (color != 1)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Pink"));
@@ -218,12 +218,12 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				CarMeshComponent->SetCollisionProfileName(FName("PinkVehicle"));
 
 				//RecreatePhysicsState();
+
 			}
 		}
-	}
-	else if (AxisValue > 0.0f) {
-		if (!isInsideYellow && !isInsidePink) {
-			
+		else if (AxisValue > 0.0f) {
+
+
 			if (color != 2)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Car Switched to Blue"));
@@ -240,6 +240,7 @@ void UFlipComponent::ChangeColor(float AxisValue)
 				CarMeshComponent->GetBodyInstance(FName("Tire_rearright"))->SetCollisionProfileName(FName("BlueVehicle"));*/
 				CarMeshComponent->SetCollisionProfileName(FName("BlueVehicle"));
 				//RecreatePhysicsState();
+
 			}
 		}
 	}

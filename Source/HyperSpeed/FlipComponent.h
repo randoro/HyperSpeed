@@ -56,4 +56,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Color")
 		void ChangeColorCollection(int32 CheckColor);
 
+		bool isInsideYellow;
+		bool isInsidePink;
+		bool isInsideBlue;
+
 };
