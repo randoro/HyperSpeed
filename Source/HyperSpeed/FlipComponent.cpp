@@ -85,13 +85,13 @@ void UFlipComponent::DoJump(bool isOnGround) {
 		FVector vel = CarMeshComponent->GetPhysicsLinearVelocity();
 		if ((vel.X < 100 && vel.X > -100) && (vel.Y < 100 && vel.Y > -100) && (vel.Z < 1000 && vel.Z > -100))
 		{
+			
 			vel.X += 50;
 			vel.Y += 50;
 			vel.Z += JumpHeight;
 		}
 		else 
 		{
-			
 			vel.Z += JumpHeight + JumpPercentageIncreaseFromVelocity * vel.Size();
 		}
 		CarMeshComponent->SetPhysicsLinearVelocity(vel);
