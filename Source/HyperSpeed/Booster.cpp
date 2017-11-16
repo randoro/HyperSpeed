@@ -12,7 +12,7 @@ ABooster::ABooster()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//Static refs
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> ArrowMeshRef(TEXT("/Game/Geometry/Meshes/1M_Cube.1M_Cube"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ArrowMeshRef(TEXT("/Game/Arrow.Arrow"));
 
 
 
@@ -26,7 +26,8 @@ ABooster::ABooster()
 
 	BoostTrigger->OnComponentBeginOverlap.AddDynamic(this, &ABooster::OnBeginOverlap);
 	BoostTrigger->OnComponentEndOverlap.AddDynamic(this, &ABooster::OnEndOverlap);
-	BoostTrigger->SetBoxExtent(FVector(50.0f, 50.0f, 50.0f));
+	BoostTrigger->SetBoxExtent(FVector(300.0f, 200.0f, 300.0f));
+	BoostTrigger->SetRelativeLocation(FVector(-150.0f, 75.0f, 0.0f));
 	BoostTrigger->SetCollisionProfileName(TEXT("Trigger"));
 
 	//Attach SubObjects
@@ -64,7 +65,9 @@ void ABooster::OnBeginOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp
 			if (Comps[i]->IsA(USkeletalMeshComponent::StaticClass()))
 			{
 				USkeletalMeshComponent* otherV = Comps[i];
-				otherV->SetPhysicsLinearVelocity(otherV->GetPhysicsLinearVelocity() * 1.10f); //Cap to max speed
+
+				UE_LOG(LogTemp, Warning, TEXT("Forward FVector X:%f Y:%f Z:%f"), RootComponent->GetForwardVector().X, RootComponent->GetForwardVector().Y, RootComponent->GetForwardVector().Z);
+				otherV->SetPhysicsLinearVelocity(otherV->GetPhysicsLinearVelocity() + (500.0f * RootComponent->GetForwardVector())); //Cap to max speed
 				//FVector vel = otherV->Velocity;
 				//otherV->MaxEngineRPM = 32000.0f;
 				UE_LOG(LogTemp, Warning, TEXT("Enter and gain 10% Velocity now its FVector X:%f Y:%f Z:%f"), otherV->GetPhysicsLinearVelocity().X, otherV->GetPhysicsLinearVelocity().Y, otherV->GetPhysicsLinearVelocity().Z);
