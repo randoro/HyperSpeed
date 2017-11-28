@@ -2,6 +2,8 @@
 
 #include "HyperSpeed.h"
 #include "Route.h"
+#include "Waypoint.h"
+#include "HyperSpeedGameMode.h"
 
 
 // Sets default values
@@ -21,29 +23,6 @@ void ARoute::BeginPlay()
 	AActor* OtherCharacter = Cast<AActor>(myCharacter);
 
 
-	
-		/*TArray<UStaticMeshComponent*> StaticComps;
-		StaticComps = OtherCharacter->GetComponentsByTag(UStaticMeshComponent::StaticClass(), FName("Arrow"));
-		for (size_t i = 0; i < StaticComps.Num(); i++)
-		{
-			Arrow = StaticComps[i];
-		}
-		if (Arrow != NULL)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Found Arrow X:%f Y:%f Z:%f"), 0.0f, 0.0f, 0.0f);
-		}*/
-	
-
-	/*TArray<USkeletalMeshComponent*> Comps;
-	OtherCharacter->GetComponents(Comps);
-	for (size_t i = 0; i < Comps.Num(); i++)
-	{
-		if (Comps[i]->IsA(USkeletalMeshComponent::StaticClass()))
-		{
-			CarMeshComponent = Comps[i];
-		}
-	}*/
-
 	TArray<USkeletalMeshComponent*> StaticComps;
 	OtherCharacter->GetComponents(StaticComps);
 	for (size_t i = 0; i < StaticComps.Num(); i++)
@@ -57,6 +36,20 @@ void ARoute::BeginPlay()
 			}
 		}
 	}
+
+	for (size_t i = 0; i < Waypoints.Num(); i++)
+	{
+		AWaypoint* waypoint = Cast<AWaypoint>(Waypoints[i]);
+		waypoint->SetRoute(this);
+	}
+
+	GameMode = (AHyperSpeedGameMode*)GetWorld()->GetAuthGameMode();
+
+	if (Waypoints.Num() != 0)
+	{
+		Selected = Waypoints[0];
+	}
+
 }
 
 // Called every frame
@@ -66,9 +59,17 @@ void ARoute::Tick( float DeltaTime )
 	
 	if (Waypoints.Num() != 0)
 	{
-		Selected = Waypoints[0];
 		Arrow->SetWorldRotation(FRotationMatrix::MakeFromX(Selected->GetActorLocation() - Arrow->GetAttachmentRootActor()->GetActorLocation()).Rotator());
 	}
 
 }
 
+
+void ARoute::SelectNext()
+{
+	selectedIndex = (selectedIndex + 1) % Waypoints.Num();
+	Selected = Waypoints[selectedIndex];
+
+	GameMode->SetTime(GameMode->GetTime() + 1000);
+}
+	

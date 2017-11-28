@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "HyperSpeedGameMode.h"
 #include "Route.generated.h"
 
 UCLASS()
@@ -13,11 +14,15 @@ class HYPERSPEED_API ARoute : public AActor
 	UPROPERTY(EditAnywhere)
 	TArray<AActor*> Waypoints;
 
-	UPROPERTY(EditAnywhere)
-	AActor* Selected;
+	int selectedIndex;
+
+	
 
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Arrow;
+
+	UPROPERTY(EditAnywhere)
+	AHyperSpeedGameMode* GameMode;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -29,6 +34,9 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	
+	UPROPERTY(EditAnywhere)
+	AActor* Selected;
+
+	void SelectNext();
 	
 };
