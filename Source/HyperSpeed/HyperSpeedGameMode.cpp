@@ -25,6 +25,11 @@ void AHyperSpeedGameMode::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	Time--;
+
+	if (Time < 0) 
+	{
+		UGameplayStatics::OpenLevel(GetWorld(), "MainMenuLevel");
+	}
 }
 
 int32 AHyperSpeedGameMode::GetTime()

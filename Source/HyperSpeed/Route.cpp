@@ -42,7 +42,7 @@ void ARoute::BeginPlay()
 		AWaypoint* waypoint = Cast<AWaypoint>(Waypoints[i]);
 		waypoint->SetRoute(this);
 	}
-
+	clearedPoints = 0;
 	GameMode = (AHyperSpeedGameMode*)GetWorld()->GetAuthGameMode();
 
 	if (Waypoints.Num() != 0)
@@ -69,7 +69,8 @@ void ARoute::SelectNext()
 {
 	selectedIndex = (selectedIndex + 1) % Waypoints.Num();
 	Selected = Waypoints[selectedIndex];
+	clearedPoints++;
 
-	GameMode->SetTime(GameMode->GetTime() + 1000);
+	GameMode->SetTime(GameMode->GetTime() + FMath::Clamp(1000 - clearedPoints * 50, 10, 1000));
 }
 	

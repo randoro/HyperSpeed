@@ -15,6 +15,7 @@ class HYPERSPEED_API ARoute : public AActor
 	TArray<AActor*> Waypoints;
 
 	int selectedIndex;
+	int clearedPoints;
 
 	
 
